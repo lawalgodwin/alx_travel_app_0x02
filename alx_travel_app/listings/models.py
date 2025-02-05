@@ -76,3 +76,18 @@ class Review(models.Model):
     
     def __str__(self):
         return f"{self.guest} - {self.property.name} | {self.rating}/5"
+
+
+class Payment(models.Model):
+
+    class Status(models.TextChoices):
+        PENDING = "pending", _("Payment is on pending",)
+        CONFIRMED = "success", _("Payment successful")
+        REFUNDED = "refunded", _("Payment refunded")
+        REVERSED = "reversed", _("Payment reversed")
+        CANCELED = "failed", _("Payment failed/cancelled")
+
+    payment_id = models.UUIDField(default=uuid.uuid4, primary_key=True)
+    booking_id = models.ForeignKey(to=Booking, on_delete=models.CASCADE, related_name="payments")
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(max_length=9, choices=Status, default=Status.PENDING)
