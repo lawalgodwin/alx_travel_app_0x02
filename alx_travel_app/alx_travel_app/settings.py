@@ -136,10 +136,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Celery using RabbitMQ as the message broker
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost//'
-
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
  #Results  backend (optional, but recommended for montoring)
-CELERY_RESULT_BACKEND = 'rpc://'
+CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
 
 CELERY_WORKER_POOL = 'solo'
 
@@ -200,4 +199,12 @@ REDOC_SETTINGS = {
 }
 
 CHAPA_SECRET_KEY = (env('CHAPA_SECRET_KEY'))
+CHAPA_WEBHOOK_SECRET = env("CHAPA_WEBHOOK_SECRET")
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = '2525'
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = False
